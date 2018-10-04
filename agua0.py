@@ -1,26 +1,36 @@
 import pandas as pd
 import sklearn as sk
 
-def miLectorDeDatos(ruta="../Data/opData.csv"):
+def miLectorDeDatos(ruta="../../Data/opData.csv"):
     miFormato=["user","n1","op","n2","t"]
-    datos=pd.read_csv(ruta,index_col=False,names=miFormato)
+    datos=pd.read_csv(ruta,header=1,names=miFormato)
+    datos=datos.round({"t":2})
     return datos
 
-def modeloOp(data):
-    sum=data.loc[data["op"]=="+"]
-    sub=data.loc[data["op"]=="-"]
-    mul=data.loc[data["op"]=="*"]
-    div=data.loc[data["op"]=="/"]
+def modeloOp(datos):
+    sum=data.loc[datos["op"]=="+"]
+    sub=data.loc[datos["op"]=="-"]
+    mul=data.loc[datos["op"]=="*"]
+    div=data.loc[datos["op"]=="/"]
     return [sum,sub,mul,div]
-"""
-def engorde(datos):
-    data["animales"]=data.map
 
-def timeStudy(data):
-"""
+def engorde(datos):
+    datos["min"]=datos["t"].map(lambda x:(x-1.50))
+    datos["max"]=datos["t"].map(lambda x:(x+1.50))
+    return datos
+
+def getSimpleAnaliticOp(data):
+    cuentaCompleja="/"
+    miSample=data.query('op!="/"')
+    return miSample
+
+#def timeStudy(data):
+#def KMeaning(datxs):
+
 
 def main():
     data=miLectorDeDatos()
-
-    dataByOp=modeloOp(data)
-    print(data["op"])
+    data=getSimpleAnaliticOp(data)
+#    data=engorde(data)
+#    dataByOp=modeloOp(data)
+    print(data)
