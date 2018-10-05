@@ -25,12 +25,36 @@ def getSimpleAnaliticOp(data):
     return miSample
 
 #def timeStudy(data):
-#def KMeaning(datxs):
+def getGrupo(numero):
+    if numero<11:
+        return 0
+    if numero%10==0:
+        return 1
+    return 2
+
+def getHardness(op):
+    if (op=="*"):
+         return 4
+    if (op=="-"):
+        return 1
+    return 0
+
+def heuristica(datos):
+    #datos["dificultad"]=getGrupo(datos.n1)+getGroup(datos.n2)
+    i=datos.index
+    funcion=pd.Series(index=i)
+    for index, row in datos.iterrows():
+        funcion[index]=int(getGrupo(row["n1"])+getGrupo(row["n2"])+getHardness(row["op"]))
+    miModelo={'opera':datos["op"].values,'heuristica':funcion}
+    return miModelo
+
+#def KMeaning(gatxs):
 
 
 def main():
     data=miLectorDeDatos()
     data=getSimpleAnaliticOp(data)
+    modelo=heuristica(data)
 #    data=engorde(data)
 #    dataByOp=modeloOp(data)
     print(data)
